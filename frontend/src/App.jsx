@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Login from "./pages/Login";
+
 import Dashboard from "./pages/Dashboard";
-import NewTicket from "./pages/NewTicket";
 import Tickets from "./pages/Tickets";
+import ProtectedRoute from "./components/ProtectedRoute";
+import NewTicket from "./pages/NewTicket";
 import TrackTicket from "./pages/TrackTicket";
 
 function App() {
@@ -10,25 +13,50 @@ function App() {
     <BrowserRouter>
       <Routes>
 
+        {/* CUSTOMER */}
+
         <Route
           path="/"
-          element={<Dashboard />}
-        />
-
-        <Route
-          path="/new-ticket"
           element={<NewTicket />}
-        />
-
-        <Route
-          path="/tickets"
-          element={<Tickets />}
         />
 
         <Route
           path="/track-ticket"
           element={<TrackTicket />}
         />
+
+        {/* ADMIN */}
+
+        <Route
+          path="/admin/login"
+          element={<Login />}
+        />
+
+        <Route
+          path="/admin/dashboard"
+          element={<Dashboard />}
+        />
+
+        <Route
+          path="/admin/tickets"
+          element={<Tickets />}
+        /><Route
+  path="/admin/dashboard"
+  element={
+    <ProtectedRoute>
+      <Dashboard />
+    </ProtectedRoute>
+  }
+/>
+
+<Route
+  path="/admin/tickets"
+  element={
+    <ProtectedRoute>
+      <Tickets />
+    </ProtectedRoute>
+  }
+/>
 
       </Routes>
     </BrowserRouter>

@@ -3,22 +3,23 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
 
+const authRoutes = require("./routes/authRoutes");
 const ticketRoutes = require("./routes/ticketRoutes");
 
 const app = express();
 
-// Middleware
 app.use(cors());
 app.use(express.json());
 
-// Routes
+console.log("AUTH ROUTES LOADED");
+
+app.use("/api/auth", authRoutes);
 app.use("/api/tickets", ticketRoutes);
 
 app.get("/", (req, res) => {
   res.send("Repair Management API Running");
 });
 
-// MongoDB Connection
 mongoose
   .connect(process.env.MONGO_URI)
   .then(() => {
