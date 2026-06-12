@@ -1,16 +1,166 @@
-# React + Vite
+# Advantage Repair Software
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+A full-stack Repair Management System built using React, Node.js, Express, MongoDB Atlas, and Tailwind CSS.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Customer Features
 
-## React Compiler
+* Create Repair Tickets
+* Generate Unique Ticket IDs
+* Track Repair Status
+* WhatsApp Inquiry Support
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Admin Features
 
-## Expanding the ESLint configuration
+* View All Repair Tickets
+* Manage Repair Requests
+* Update Ticket Status
+* Monitor Repair Workflow
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+### Repair Workflow
+
+* Pending
+* Assigned
+* Diagnosing
+* Waiting for Parts
+* Repair In Progress
+* Quality Check
+* Completed
+* Delivered
+
+## Technology Stack
+
+### Frontend
+
+* React
+* React Router DOM
+* Axios
+* Tailwind CSS
+* Vite
+
+### Backend
+
+* Node.js
+* Express.js
+* MongoDB Atlas
+* Mongoose
+* dotenv
+* CORS
+
+## Project Structure
+
+```text
+repair-management-system/
+
+├── frontend/
+│   ├── src/
+│   │   ├── pages/
+│   │   ├── layouts/
+│   │   ├── services/
+│   │   └── components/
+│
+├── backend/
+│   ├── controllers/
+│   ├── middleware/
+│   ├── models/
+│   ├── routes/
+│   ├── services/
+│   ├── utils/
+│   └── server.js
+```
+
+## Installation
+
+### Clone Repository
+
+```bash
+git clone https://github.com/sarveshgulgulia90/Advantage-repair-software.git
+cd Advantage-repair-software
+```
+
+### Backend Setup
+
+```bash
+cd backend
+
+npm install
+```
+
+Create `.env`
+
+```env
+PORT=5002
+
+MONGO_URI=YOUR_MONGODB_CONNECTION_STRING
+```
+
+Run Backend
+
+```bash
+npm run dev
+```
+
+### Frontend Setup
+
+```bash
+cd frontend
+
+npm install
+
+npm run dev
+```
+
+Frontend:
+
+```text
+http://localhost:5173
+```
+
+Backend:
+
+```text
+http://localhost:5002
+```
+
+## Current Features Implemented
+
+* Ticket Creation
+* MongoDB Storage
+* Auto Ticket ID Generation
+* Ticket Listing
+* Status Management
+* Customer Ticket Tracking
+* Dashboard Navigation
+
+## Planned Features
+
+### Authentication
+
+* Admin Login
+* JWT Authentication
+* Role-Based Access Control
+
+### Technician Module
+
+* Technician Accounts
+* Assigned Repairs
+* Repair Notes
+* Progress Updates
+
+### PDF System
+
+* Repair Receipt PDF
+* Repair Report PDF
+* Invoice Generation
+
+### Advanced Features
+
+* File Uploads
+* Device Images
+* Inventory Management
+* Analytics Dashboard
+* Email Notifications
+* SMS Notifications
+
+
