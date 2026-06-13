@@ -5,7 +5,7 @@ require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
 const ticketRoutes = require("./routes/ticketRoutes");
-
+const dashboardRoutes = require("./routes/dashboardRoutes");
 const app = express();
 
 app.use(cors());
@@ -15,7 +15,7 @@ console.log("AUTH ROUTES LOADED");
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tickets", ticketRoutes);
-
+app.use("/api/dashboard", dashboardRoutes);
 app.get("/", (req, res) => {
   res.send("Repair Management API Running");
 });
