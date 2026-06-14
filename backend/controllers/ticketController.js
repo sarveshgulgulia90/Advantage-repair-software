@@ -81,10 +81,29 @@ const getTicketByTicketId = async (req, res) => {
     });
   }
 };
+const trackTicket = async (req, res) => {
+  try {
+    const ticket = await Ticket.findOne({
+      ticketId: req.params.ticketId,
+    });
 
+    if (!ticket) {
+      return res.status(404).json({
+        message: "Ticket not found",
+      });
+    }
+
+    res.json(ticket);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   createTicket,
   getTickets,
   updateTicketStatus,
   getTicketByTicketId,
+  trackTicket,
 };

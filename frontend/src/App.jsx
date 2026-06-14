@@ -1,12 +1,12 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
+import Home from "./pages/Home";
 import Login from "./pages/Login";
-
 import Dashboard from "./pages/Dashboard";
 import Tickets from "./pages/Tickets";
-import ProtectedRoute from "./components/ProtectedRoute";
 import NewTicket from "./pages/NewTicket";
 import TrackTicket from "./pages/TrackTicket";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -17,6 +17,11 @@ function App() {
 
         <Route
           path="/"
+          element={<Home />}
+        />
+
+        <Route
+          path="/new-ticket"
           element={<NewTicket />}
         />
 
@@ -34,29 +39,21 @@ function App() {
 
         <Route
           path="/admin/dashboard"
-          element={<Dashboard />}
+          element={
+            <ProtectedRoute>
+              <Dashboard />
+            </ProtectedRoute>
+          }
         />
 
         <Route
           path="/admin/tickets"
-          element={<Tickets />}
-        /><Route
-  path="/admin/dashboard"
-  element={
-    <ProtectedRoute>
-      <Dashboard />
-    </ProtectedRoute>
-  }
-/>
-
-<Route
-  path="/admin/tickets"
-  element={
-    <ProtectedRoute>
-      <Tickets />
-    </ProtectedRoute>
-  }
-/>
+          element={
+            <ProtectedRoute>
+              <Tickets />
+            </ProtectedRoute>
+          }
+        />
 
       </Routes>
     </BrowserRouter>
