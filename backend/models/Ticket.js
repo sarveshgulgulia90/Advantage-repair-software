@@ -22,6 +22,11 @@ const TicketSchema = new mongoose.Schema(
     email: String,
     address: String,
 
+    assignedTechnician: {
+      type: String,
+      default: "",
+    },
+
     status: {
       type: String,
       default: "Pending",
@@ -32,4 +37,7 @@ const TicketSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("Ticket", TicketSchema);
+module.exports = mongoose.model(
+  "Ticket",
+  TicketSchema
+);

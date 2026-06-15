@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
+import AdminLayout from "../layouts/AdminLayout";
 import api from "../services/api";
 
 function Tickets() {
@@ -21,49 +20,43 @@ function Tickets() {
 
   async function updateStatus(id, status) {
     try {
-      await api.put(`/tickets/${id}/status`, {
-        status,
-      });
+      await api.put(
+        `/tickets/${id}/status`,
+        {
+          status,
+        }
+      );
 
       fetchTickets();
     } catch (error) {
       console.error(error);
-      alert("Failed to update status");
     }
   }
 
-  function handleLogout() {
-    localStorage.clear();
-    window.location.href = "/admin/login";
+  async function updateTechnician(
+    id,
+    assignedTechnician
+  ) {
+    try {
+      await api.put(
+        `/tickets/${id}/technician`,
+        {
+          assignedTechnician,
+        }
+      );
+
+      fetchTickets();
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   return (
-    <MainLayout>
-      <div className="flex justify-between items-center mb-6">
+    <AdminLayout>
 
-        <h1 className="text-3xl font-bold">
-          Admin Ticket Management
-        </h1>
-
-        <div className="flex gap-3">
-
-          <Link
-            to="/admin/dashboard"
-            className="bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Dashboard
-          </Link>
-
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 text-white px-4 py-2 rounded"
-          >
-            Logout
-          </button>
-
-        </div>
-
-      </div>
+      <h1 className="text-3xl font-bold mb-6">
+        Ticket Management
+      </h1>
 
       <div className="bg-white rounded shadow overflow-x-auto">
 
@@ -71,82 +64,149 @@ function Tickets() {
 
           <thead className="bg-gray-100">
             <tr>
-              <th className="p-3 text-left">Ticket ID</th>
-              <th className="p-3 text-left">Customer</th>
-              <th className="p-3 text-left">Phone</th>
-              <th className="p-3 text-left">Device</th>
-              <th className="p-3 text-left">Issue</th>
-              <th className="p-3 text-left">Status</th>
+              <th className="p-3 text-left">
+                Ticket ID
+              </th>
+
+              <th className="p-3 text-left">
+                Customer
+              </th>
+
+              <th className="p-3 text-left">
+                Phone
+              </th>
+
+              <th className="p-3 text-left">
+                Device
+              </th>
+
+              <th className="p-3 text-left">
+                Technician
+              </th>
+
+              <th className="p-3 text-left">
+                Status
+              </th>
             </tr>
           </thead>
 
           <tbody>
-            {tickets.length === 0 ? (
-              <tr>
-                <td
-                  colSpan="6"
-                  className="p-6 text-center text-gray-500"
-                >
-                  No tickets found
+
+            {tickets.map((ticket) => (
+              <tr
+                key={ticket._id}
+                className="border-t"
+              >
+                <td className="p-3">
+                  {ticket.ticketId}
                 </td>
+
+                <td className="p-3">
+                  {ticket.name}
+                </td>
+
+                <td className="p-3">
+                  {ticket.phone}
+                </td>
+
+                <td className="p-3">
+                  {ticket.brand}{" "}
+                  {ticket.model}
+                </td>
+
+                <td className="p-3">
+
+                  <select
+                    value={
+                      ticket.assignedTechnician ||
+                      ""
+                    }
+                    onChange={(e) =>
+                      updateTechnician(
+                        ticket._id,
+                        e.target.value
+                      )
+                    }
+                    className="border rounded p-2"
+                  >
+                    <option value="">
+                      Select
+                    </option>
+
+                    <option value="Rahul">
+                      Rahul
+                    </option>
+
+                    <option value="Amit">
+                      Amit
+                    </option>
+
+                    <option value="Sarvesh">
+                      Sarvesh
+                    </option>
+
+                  </select>
+
+                </td>
+
+                <td className="p-3">
+
+                  <select
+                    value={ticket.status}
+                    onChange={(e) =>
+                      updateStatus(
+                        ticket._id,
+                        e.target.value
+                      )
+                    }
+                    className="border rounded p-2"
+                  >
+                    <option>
+                      Pending
+                    </option>
+
+                    <option>
+                      Assigned
+                    </option>
+
+                    <option>
+                      Diagnosing
+                    </option>
+
+                    <option>
+                      Waiting for Parts
+                    </option>
+
+                    <option>
+                      Repair In Progress
+                    </option>
+
+                    <option>
+                      Quality Check
+                    </option>
+
+                    <option>
+                      Completed
+                    </option>
+
+                    <option>
+                      Delivered
+                    </option>
+
+                  </select>
+
+                </td>
+
               </tr>
-            ) : (
-              tickets.map((ticket) => (
-                <tr
-                  key={ticket._id}
-                  className="border-t"
-                >
-                  <td className="p-3">
-                    {ticket.ticketId}
-                  </td>
+            ))}
 
-                  <td className="p-3">
-                    {ticket.name}
-                  </td>
-
-                  <td className="p-3">
-                    {ticket.phone}
-                  </td>
-
-                  <td className="p-3">
-                    {ticket.brand} {ticket.model}
-                  </td>
-
-                  <td className="p-3">
-                    {ticket.issueDescription}
-                  </td>
-
-                  <td className="p-3">
-                    <select
-                      value={ticket.status}
-                      onChange={(e) =>
-                        updateStatus(
-                          ticket._id,
-                          e.target.value
-                        )
-                      }
-                      className="border rounded p-2"
-                    >
-                      <option>Pending</option>
-                      <option>Assigned</option>
-                      <option>Diagnosing</option>
-                      <option>Waiting for Parts</option>
-                      <option>Repair In Progress</option>
-                      <option>Quality Check</option>
-                      <option>Completed</option>
-                      <option>Delivered</option>
-                    </select>
-                  </td>
-
-                </tr>
-              ))
-            )}
           </tbody>
 
         </table>
 
       </div>
-    </MainLayout>
+
+    </AdminLayout>
   );
 }
 

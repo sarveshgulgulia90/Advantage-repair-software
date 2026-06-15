@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
-import MainLayout from "../layouts/MainLayout";
+import AdminLayout from "../layouts/AdminLayout";
 import api from "../services/api";
 
 function Dashboard() {
@@ -17,41 +16,22 @@ function Dashboard() {
 
   async function fetchStats() {
     try {
-      const res = await api.get("/dashboard/stats");
+      const res = await api.get(
+        "/dashboard/stats"
+      );
+
       setStats(res.data);
     } catch (error) {
       console.error(error);
     }
   }
 
-  function handleLogout() {
-    localStorage.clear();
-    window.location.href = "/admin/login";
-  }
-
   return (
-    <MainLayout>
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-3xl font-bold">
-          Admin Dashboard
-        </h2>
+    <AdminLayout>
 
-        <div className="flex gap-3">
-          <Link
-            to="/admin/tickets"
-            className="bg-green-600 text-white px-5 py-3 rounded-lg"
-          >
-            Manage Tickets
-          </Link>
-
-          <button
-            onClick={handleLogout}
-            className="bg-red-600 text-white px-5 py-3 rounded-lg"
-          >
-            Logout
-          </button>
-        </div>
-      </div>
+      <h2 className="text-3xl font-bold mb-6">
+        Admin Dashboard
+      </h2>
 
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
 
@@ -96,7 +76,8 @@ function Dashboard() {
         </div>
 
       </div>
-    </MainLayout>
+
+    </AdminLayout>
   );
 }
 

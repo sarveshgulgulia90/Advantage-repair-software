@@ -100,10 +100,35 @@ const trackTicket = async (req, res) => {
     });
   }
 };
+const assignTechnician = async (
+  req,
+  res
+) => {
+  try {
+    const ticket =
+      await Ticket.findByIdAndUpdate(
+        req.params.id,
+        {
+          assignedTechnician:
+            req.body.assignedTechnician,
+        },
+        {
+          new: true,
+        }
+      );
+
+    res.json(ticket);
+  } catch (error) {
+    res.status(500).json({
+      message: error.message,
+    });
+  }
+};
 module.exports = {
   createTicket,
   getTickets,
   updateTicketStatus,
   getTicketByTicketId,
   trackTicket,
+  assignTechnician,
 };

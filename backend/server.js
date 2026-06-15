@@ -2,7 +2,8 @@ const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
 require("dotenv").config();
-
+const technicianRoutes =
+require("./routes/technicianRoutes");
 const authRoutes = require("./routes/authRoutes");
 const ticketRoutes = require("./routes/ticketRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
@@ -11,10 +12,15 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-console.log("AUTH ROUTES LOADED");
+
+app.use(
+  "/api/technicians",
+  technicianRoutes
+);
 
 app.use("/api/auth", authRoutes);
 app.use("/api/tickets", ticketRoutes);
+
 app.use("/api/dashboard", dashboardRoutes);
 app.get("/", (req, res) => {
   res.send("Repair Management API Running");

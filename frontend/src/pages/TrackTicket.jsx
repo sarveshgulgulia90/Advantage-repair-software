@@ -3,11 +3,19 @@ import MainLayout from "../layouts/MainLayout";
 import api from "../services/api";
 
 function TrackTicket() {
-  const [ticketId, setTicketId] =
-    useState("");
+  const [ticketId, setTicketId] = useState("");
+  const [ticket, setTicket] = useState(null);
 
-  const [ticket, setTicket] =
-    useState(null);
+  const statuses = [
+    "Pending",
+    "Assigned",
+    "Diagnosing",
+    "Waiting for Parts",
+    "Repair In Progress",
+    "Quality Check",
+    "Completed",
+    "Delivered",
+  ];
 
   async function handleTrack() {
     try {
@@ -22,16 +30,34 @@ function TrackTicket() {
     }
   }
 
+  function getStatusColor(status) {
+    switch (status) {
+      case "Completed":
+      case "Delivered":
+        return "bg-green-500";
+
+      case "Diagnosing":
+      case "Repair In Progress":
+      case "Quality Check":
+        return "bg-yellow-500";
+
+      case "Waiting for Parts":
+        return "bg-orange-500";
+
+      default:
+        return "bg-blue-500";
+    }
+  }
+
   return (
     <MainLayout>
+      <div className="max-w-5xl mx-auto">
 
-      <div className="max-w-4xl mx-auto">
-
-        <h1 className="text-3xl font-bold mb-6">
-          Track Repair Ticket
+        <h1 className="text-4xl font-bold mb-6">
+          Track Your Repair
         </h1>
 
-        <div className="bg-white p-6 rounded shadow">
+        <div className="bg-white p-6 rounded-xl shadow">
 
           <div className="flex gap-4">
 
@@ -42,12 +68,12 @@ function TrackTicket() {
               onChange={(e) =>
                 setTicketId(e.target.value)
               }
-              className="border p-3 flex-1 rounded"
+              className="border p-3 flex-1 rounded-lg"
             />
 
             <button
               onClick={handleTrack}
-              className="bg-blue-600 text-white px-6 rounded"
+              className="bg-blue-600 text-white px-6 rounded-lg"
             >
               Track
             </button>
@@ -57,59 +83,118 @@ function TrackTicket() {
         </div>
 
         {ticket && (
+          <div className="bg-white p-8 rounded-xl shadow mt-6">
 
-          <div className="bg-white p-6 rounded shadow mt-6">
+            <div className="flex justify-between items-center mb-6">
 
-            <h2 className="text-2xl font-bold mb-4">
-              Ticket Details
-            </h2>
-
-            <div className="space-y-2">
-
-              <p>
-                <strong>Ticket ID:</strong>{" "}
+              <h2 className="text-3xl font-bold">
                 {ticket.ticketId}
-              </p>
+              </h2>
 
-              <p>
+              <span
+                className={`text-white px-4 py-2 rounded-full ${getStatusColor(
+                  ticket.status
+                )}`}
+              >
+                {ticket.status}
+              </span>
+
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-4 mb-8">
+
+              <div>
                 <strong>Customer:</strong>{" "}
                 {ticket.name}
-              </p>
+              </div>
 
-              <p>
+              <div>
                 <strong>Phone:</strong>{" "}
                 {ticket.phone}
-              </p>
+              </div>
 
-              <p>
+              <div>
                 <strong>Device:</strong>{" "}
-                {ticket.brand}{" "}
-                {ticket.model}
-              </p>
+                {ticket.brand} {ticket.model}
+              </div>
 
-              <p>
-                <strong>Issue:</strong>{" "}
-                {ticket.issueDescription}
-              </p>
-
-              <p>
-                <strong>Status:</strong>{" "}
-                {ticket.status}
-              </p>
-
-              <p>
+              <div>
                 <strong>Preferred Date:</strong>{" "}
                 {ticket.preferredDate}
-              </p>
+              </div>
+
+            </div>
+
+            <div className="mb-8">
+
+              <h3 className="font-bold text-xl mb-2">
+                Reported Issue
+              </h3>
+
+              <div className="bg-gray-100 p-4 rounded">
+                {ticket.issueDescription}
+              </div>
+
+            </div>
+
+            <div>
+
+              <h3 className="font-bold text-xl mb-4">
+                Repair Progress
+              </h3>
+
+              <div className="space-y-3">
+
+                {statuses.map((status) => {
+                  const currentIndex =
+                    statuses.indexOf(
+                      ticket.status
+                    );
+
+                  const statusIndex =
+                    statuses.indexOf(status);
+
+                  const completed =
+                    statusIndex <= currentIndex;
+
+                  return (
+                    <div
+                      key={status}
+                      className="flex items-center gap-3"
+                    >
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center text-white ${
+                          completed
+                            ? "bg-green-600"
+                            : "bg-gray-300"
+                        }`}
+                      >
+                        {completed
+                          ? "✓"
+                          : ""}
+                      </div>
+
+                      <span
+                        className={
+                          completed
+                            ? "font-semibold"
+                            : "text-gray-500"
+                        }
+                      >
+                        {status}
+                      </span>
+                    </div>
+                  );
+                })}
+
+              </div>
 
             </div>
 
           </div>
-
         )}
 
       </div>
-
     </MainLayout>
   );
 }

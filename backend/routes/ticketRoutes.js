@@ -6,15 +6,27 @@ const {
   createTicket,
   getTickets,
   updateTicketStatus,
-  getTicketByTicketId,
+  trackTicket,
+  assignTechnician,
 } = require("../controllers/ticketController");
 
 router.post("/", createTicket);
 
 router.get("/", getTickets);
 
-router.get("/track/:ticketId", getTicketByTicketId);
+router.get(
+  "/track/:ticketId",
+  trackTicket
+);
 
-router.put("/:id/status", updateTicketStatus);
+router.put(
+  "/:id/status",
+  updateTicketStatus
+);
+
+router.put(
+  "/:id/technician",
+  assignTechnician
+);
 
 module.exports = router;
