@@ -5,6 +5,8 @@ const router = express.Router();
 const {
   createTicket,
   getTickets,
+  getTicketById,
+  updateTicket,
   updateTicketStatus,
   trackTicket,
   assignTechnician,
@@ -17,6 +19,16 @@ router.get("/", getTickets);
 router.get(
   "/track/:ticketId",
   trackTicket
+);
+
+router.get(
+  "/:id",
+  getTicketById
+);
+
+router.put(
+  "/:id",
+  updateTicket
 );
 
 router.put(

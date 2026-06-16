@@ -4,6 +4,7 @@ import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import Tickets from "./pages/Tickets";
+import TicketDetails from "./pages/TicketDetails";
 import Technicians from "./pages/Technicians";
 import NewTicket from "./pages/NewTicket";
 import TrackTicket from "./pages/TrackTicket";
@@ -52,6 +53,15 @@ function App() {
           element={
             <ProtectedRoute>
               <Tickets />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/tickets/:id"
+          element={
+            <ProtectedRoute>
+              <TicketDetails />
             </ProtectedRoute>
           }
         />
